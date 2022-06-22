@@ -55,6 +55,7 @@ const cachedImageExist = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     if (result == true) {
         const location = path_1.default.resolve('assets', `cachedImages/${fileName}_${width}_${height}.jpg`);
         res.status(200).sendFile(location);
+        console.log("A CACHED IMAGE");
         return;
     }
     next();

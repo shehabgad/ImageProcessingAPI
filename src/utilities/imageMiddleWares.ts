@@ -61,6 +61,7 @@ const cachedImageExist = async (
       `cachedImages/${fileName}_${width}_${height}.jpg`
     );
     res.status(200).sendFile(location);
+    console.log("A CACHED IMAGE")
     return;
   }
   next();
