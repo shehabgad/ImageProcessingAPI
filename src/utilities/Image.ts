@@ -1,26 +1,26 @@
 import { promises as fs } from 'fs'
+import path from 'path';
 import sharp from 'sharp';
 
 let imageExists = async (directory: string, fileName: string): Promise<boolean> => {
   try {
-    const myFile = await fs.readFile(`assets/${directory}/${fileName}.jpg`);
+    const location = path.resolve("assets", `${directory}/${fileName}.jpg`)
+    const myFile = await fs.readFile(location);
   }
   catch (err) {
     return false;
   }
   return true;
 }
-imageExists("images", "palmtunnel2")
-
-let resizeImageAndSave = async (fileName: string, width: number, height: number): Promise<[boolean, string]> => {
+let resizeImageAndSave = async (fileName: string, widthStr: string, heightStr: string): Promise<[boolean, string]> => {
   try {
-    const image = await sharp(`assets/images/${fileName}.jpg`)
-    const resizedImage = await image.resize({
-      width: width,
-      height: height
-
-    })
-    await resizedImage.toFile(`assets/cachedImages/${fileName}_${width}_${height}.jpg`)
+    let width = +widthStr
+    let height = +heightStr
+    const location = path.resolve("assets", `images/${fileName}.jpg`)
+    const image = await sharp(location)
+    const resizedImage = await image.resize(width, height)
+    const location2 = path.resolve("assets", `cachedImages/${fileName}_${width}_${height}.jpg`)
+    await resizedImage.toFile(location2)
     return [true, "success"]
   }
   catch (err) {
@@ -28,8 +28,7 @@ let resizeImageAndSave = async (fileName: string, width: number, height: number)
     return [false, errStr]
   }
 }
-resizeImageAndSave("santamonica", 520, 15).then((data) => console.log(data))
 export default {
   imageExists,
-  resizeImageAndSave
+  resizeImageAndSave,
 }

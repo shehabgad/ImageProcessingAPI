@@ -13,25 +13,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
+const path_1 = __importDefault(require("path"));
 const sharp_1 = __importDefault(require("sharp"));
 let imageExists = (directory, fileName) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const myFile = yield fs_1.promises.readFile(`assets/${directory}/${fileName}.jpg`);
+        const location = path_1.default.resolve("assets", `${directory}/${fileName}.jpg`);
+        const myFile = yield fs_1.promises.readFile(location);
     }
     catch (err) {
         return false;
     }
     return true;
 });
-imageExists("images", "palmtunnel2");
-let resizeImageAndSave = (fileName, width, height) => __awaiter(void 0, void 0, void 0, function* () {
+let resizeImageAndSave = (fileName, widthStr, heightStr) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const image = yield (0, sharp_1.default)(`assets/images/${fileName}.jpg`);
-        const resizedImage = yield image.resize({
-            width: width,
-            height: height
-        });
-        yield resizedImage.toFile(`assets/cachedImages/${fileName}_${width}_${height}.jpg`);
+        let width = +widthStr;
+        let height = +heightStr;
+        const location = path_1.default.resolve("assets", `images/${fileName}.jpg`);
+        const image = yield (0, sharp_1.default)(location);
+        const resizedImage = yield image.resize(width, height);
+        const location2 = path_1.default.resolve("assets", `cachedImages/${fileName}_${width}_${height}.jpg`);
+        yield resizedImage.toFile(location2);
         return [true, "success"];
     }
     catch (err) {
@@ -39,8 +41,7 @@ let resizeImageAndSave = (fileName, width, height) => __awaiter(void 0, void 0, 
         return [false, errStr];
     }
 });
-resizeImageAndSave("santamonica", -1, 15).then((data) => console.log(data));
 exports.default = {
     imageExists,
-    resizeImageAndSave
+    resizeImageAndSave,
 };

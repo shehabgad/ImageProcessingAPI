@@ -1,4 +1,11 @@
 import supertest from 'supertest';
-// it('expect x(1,8) to equal 9', () => {
-//   expect(x.x(1, 8)).toEqual(9)
-// })
+import app from '../index'
+const request = supertest(app)
+describe('Testing endpoint responses', () => {
+
+  it("visit endpoint api/images?fileName=santamonica&width=800&height=750 to resize this image", async () => {
+    const response = await request.get('api/images?fileName=santamonica&width=800&height=749')
+    expect(response.status).toBe(200);
+  })
+
+})
