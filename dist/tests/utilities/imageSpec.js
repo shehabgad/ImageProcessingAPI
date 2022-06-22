@@ -15,11 +15,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Image_1 = __importDefault(require("../../utilities/Image"));
 describe('Image utility functions test', () => {
     it('image exists in images directory', () => __awaiter(void 0, void 0, void 0, function* () {
-        const result = yield Image_1.default.imageExists("images", "santamonica");
+        const result = yield Image_1.default.imageExists('images', 'santamonica');
         expect(result).toBeTruthy();
     }));
     it('resized image exists in cachedImages directory', () => __awaiter(void 0, void 0, void 0, function* () {
-        const result = yield Image_1.default.imageExists("cachedImages", "santamonica_800_750");
+        const result = yield Image_1.default.imageExists('cachedImages', 'santamonica_800_750');
+        expect(result).toBeTruthy();
+    }));
+    it('resize image then return true if image is resized and saved successfully', () => __awaiter(void 0, void 0, void 0, function* () {
+        const result = yield Image_1.default.resizeImageAndSave('santamonica', '900', '800');
         expect(result).toBeTruthy();
     }));
 });

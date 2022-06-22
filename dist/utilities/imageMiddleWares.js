@@ -19,11 +19,13 @@ const validReq = (req, res, next) => {
     const width = req.query.width;
     const height = req.query.height;
     if (fileName === undefined || width === undefined || height === undefined) {
-        res.status(400).send("please provide the required queries in this form fileName, width, height");
+        res
+            .status(400)
+            .send('please provide the required queries in this form fileName, width, height');
         return;
     }
     else if (fileName === '' || width === '' || height === '') {
-        res.status(400).send("dont send empty paramters");
+        res.status(400).send('dont send empty paramters');
         return;
     }
     try {
@@ -31,18 +33,16 @@ const validReq = (req, res, next) => {
         parseInt(height);
     }
     catch (err) {
-        res.status(400).send("height and width must be numbers");
+        res.status(400).send('height and width must be numbers');
         return;
     }
     next();
 };
 const imageExist = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const fileName = req.query.fileName;
-    const width = req.query.width;
-    const height = req.query.height;
-    const result = yield Image_1.default.imageExists("images", fileName);
+    const result = yield Image_1.default.imageExists('images', fileName);
     if (result == false) {
-        res.status(404).send("image not found");
+        res.status(404).send('image not found');
         return;
     }
     next();
@@ -51,9 +51,9 @@ const cachedImageExist = (req, res, next) => __awaiter(void 0, void 0, void 0, f
     const fileName = req.query.fileName;
     const width = req.query.width;
     const height = req.query.height;
-    const result = yield Image_1.default.imageExists("cachedImages", `${fileName}_${width}_${height}`);
+    const result = yield Image_1.default.imageExists('cachedImages', `${fileName}_${width}_${height}`);
     if (result == true) {
-        const location = path_1.default.resolve("assets", `cachedImages/${fileName}_${width}_${height}.jpg`);
+        const location = path_1.default.resolve('assets', `cachedImages/${fileName}_${width}_${height}.jpg`);
         res.status(200).sendFile(location);
         return;
     }

@@ -16,7 +16,7 @@ const supertest_1 = __importDefault(require("supertest"));
 const index_1 = __importDefault(require("../index"));
 const request = (0, supertest_1.default)(index_1.default);
 describe('Testing endpoint responses', () => {
-    it("visit endpoint api/images?fileName=santamonica&width=800&height=750 to resize this image", () => __awaiter(void 0, void 0, void 0, function* () {
+    it('visit endpoint api/images?fileName=santamonica&width=800&height=750 to resize this image', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield request.get('api/images?fileName=santamonica&width=800&height=749');
         expect(response.status).toBe(200);
     }));

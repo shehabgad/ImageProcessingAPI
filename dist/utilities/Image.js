@@ -12,29 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = require("fs");
+const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const sharp_1 = __importDefault(require("sharp"));
-let imageExists = (directory, fileName) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const location = path_1.default.resolve("assets", `${directory}/${fileName}.jpg`);
-        const myFile = yield fs_1.promises.readFile(location);
-    }
-    catch (err) {
+const imageExists = (directory, fileName) => __awaiter(void 0, void 0, void 0, function* () {
+    const location = path_1.default.resolve('assets', `${directory}/${fileName}.jpg`);
+    if (fs_1.default.existsSync(location))
+        return true;
+    else
         return false;
-    }
-    return true;
 });
-let resizeImageAndSave = (fileName, widthStr, heightStr) => __awaiter(void 0, void 0, void 0, function* () {
+const resizeImageAndSave = (fileName, widthStr, heightStr) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        let width = +widthStr;
-        let height = +heightStr;
-        const location = path_1.default.resolve("assets", `images/${fileName}.jpg`);
+        const width = +widthStr;
+        const height = +heightStr;
+        const location = path_1.default.resolve('assets', `images/${fileName}.jpg`);
         const image = yield (0, sharp_1.default)(location);
         const resizedImage = yield image.resize(width, height);
-        const location2 = path_1.default.resolve("assets", `cachedImages/${fileName}_${width}_${height}.jpg`);
+        const location2 = path_1.default.resolve('assets', `cachedImages/${fileName}_${width}_${height}.jpg`);
         yield resizedImage.toFile(location2);
-        return [true, "success"];
+        return [true, 'success'];
     }
     catch (err) {
         const errStr = err.message;

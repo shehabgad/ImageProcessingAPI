@@ -19,11 +19,11 @@ const path_1 = __importDefault(require("path"));
 const images = express_1.default.Router();
 images.get('/', imageMiddleWares_1.default, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const fileName = req.query.fileName;
-    let width = req.query.width;
-    let height = req.query.height;
+    const width = req.query.width;
+    const height = req.query.height;
     const result = yield Image_1.default.resizeImageAndSave(fileName, width, height);
     if (result[0] == true) {
-        const location = path_1.default.resolve("assets", `cachedImages/${fileName}_${width}_${height}.jpg`);
+        const location = path_1.default.resolve('assets', `cachedImages/${fileName}_${width}_${height}.jpg`);
         res.status(200).sendFile(location);
     }
     else {
